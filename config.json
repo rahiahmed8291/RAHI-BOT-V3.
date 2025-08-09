@@ -2,15 +2,16 @@
   "packname": "My Sticker Pack",
   "author": "My Bot",
   "botName": "Nayan Bot",
-  "botOwner": "Nayan",
+  "botOwner": "Mohammad Nayan",
   "ownerNumber": "8801615298449",
-  "PREFIX": ".",
+  "botNumber": "Your Bot Number",
+  "PREFIX": "/",
   "admin": [
     "8801615298449",
-    ""
+    "123471736639606"
   ],
   "helpPic": "https://i.postimg.cc/pV7xByGv/IMG-20250106-WA0007.png",
-  "welPic": "https://ibb.co/BKfsVQ04",
+  "welPic": "https://i.postimg.cc/3JQF0qWf/received-383729254132460.jpg",
   "PORT": "3000",
   "delay": 100,
   "msg": {
