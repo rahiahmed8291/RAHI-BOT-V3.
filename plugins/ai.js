@@ -20,21 +20,21 @@ module.exports = {
     if (!userPrompt) {
       return await api.sendMessage(threadId, {
         text: `Usage:\n${global.config.PREFIX}ai on/off\n${global.config.PREFIX}ai hi\nAI chatbot is currently ${aiSettings[threadId] ? 'ON' : 'OFF'} for this thread.`
-      });
+      }, { quoted: event.message });
     }
 
     if (args[0] === 'on') {
     if (isGroup) return;
       aiSettings[threadId] = true;
       await global.data.set('ai.json', aiSettings);
-      return await api.sendMessage(threadId, { text: '✅ AI chatbot is now ON for this thread.' });
+      return await api.sendMessage(threadId, { text: '✅ AI chatbot is now ON for this thread.' }, { quoted: event.message });
     }
 
     if (args[0] === 'off') {
     if (isGroup) return;
       aiSettings[threadId] = false;
       await global.data.set('ai.json', aiSettings);
-      return await api.sendMessage(threadId, { text: '❌ AI chatbot is now OFF for this thread.' });
+      return await api.sendMessage(threadId, { text: '❌ AI chatbot is now OFF for this thread.' }, { quoted: event.message });
     }
 
     
@@ -45,7 +45,7 @@ module.exports = {
       const aiResponse = response.data.response || 'I am unable to process your request at the moment.';
       await api.sendMessage(threadId, { text: aiResponse });
     } catch (error) {
-      await api.sendMessage(threadId, { text: '⚠️ Unable to fetch AI response. Please try again later.' });
+      await api.sendMessage(threadId, { text: '⚠️ Unable to fetch AI response. Please try again later.' }, { quoted: event.message });
     }
   },
 
@@ -61,7 +61,7 @@ module.exports = {
       const apiss = apis.data.api;
       const response = await axios.get(`${apiss}/nayan/gpt3?prompt=${encodeURIComponent(body)}`);
       const aiResponse = response.data.response || 'I am unable to process your request at the moment.';
-      await api.sendMessage(threadId, { text: aiResponse });
+      await api.sendMessage(threadId, { text: aiResponse }, { quoted: event.message });
     } catch (error) {
       await api.sendMessage(threadId, { text: '⚠️ Unable to fetch AI response. Please try again later.' });
     }
