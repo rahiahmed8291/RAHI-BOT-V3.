@@ -12,6 +12,7 @@ module.exports = {
             `${global.config.PREFIX}love 1 @mention - Create a love1 image with the mentioned user.`,
             `${global.config.PREFIX}love 2 @mention - Create a love2 image with the mentioned user.`,
             `${global.config.PREFIX}love 3 @mention - Create a love3 image with the mentioned user.`,
+            `${global.config.PREFIX}love 3 @mention - Create a love3 image with the mentioned user.`
         ]
     },
 
