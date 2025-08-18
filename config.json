@@ -5,6 +5,7 @@
   "botOwner": "Mohammad Nayan",
   "ownerNumber": "8801615298449",
   "botNumber": "Your Bot Number",
+  "autoUpdate": true,
   "botUid": "",
   "PREFIX": "/",
   "admin": [
