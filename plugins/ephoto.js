@@ -8,7 +8,7 @@ module.exports = {
         prefix: 'both',
         description: 'Ephoto360 text effect generator',
         categories: 'image',
-        usages: [`${global.config.PREFIX}ephoto],
+        usages: [`${global.config.PREFIX}ephoto`],
         credit: 'Developed by Mohammad Nayan'
     },
 
