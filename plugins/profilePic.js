@@ -1,7 +1,3 @@
-const request = require('request');
-const fs = require('fs-extra');
-const path = require('path');
-
 module.exports = {
   config: {
     name: 'profilepic',
@@ -10,7 +6,7 @@ module.exports = {
     prefix: 'both',
     description: 'Send the profile picture of the mentioned user or yourself.',
     categories: 'media',
-    usages: ['.profilepic', '.profilepic @mention'],
+    usages: [`${global.config.PREFIX}profilepic`, `${global.config.PREFIX}profilepic @mention`],
     credit: 'Developed by Mohammad Nayan',
   },
 
@@ -18,12 +14,7 @@ module.exports = {
     const { threadId, senderId, mentions, getProfilePictureUrls } = event;
     const ids = Object.keys(mentions).length > 0 ? mentions : [senderId];
 
-    
-
     try {
-      const cacheDir = path.join(__dirname, 'cache');
-      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
-
       const urls = await getProfilePictureUrls(ids);
       const validUrls = Object.entries(urls).filter(([id, url]) => url && !url.includes('Error'));
       if (validUrls.length === 0) {
@@ -32,28 +23,16 @@ module.exports = {
       }
 
       for (const [id, url] of validUrls) {
-        const filePath = path.join(cacheDir, `profile_${id}.jpg`);
-        request({ url, encoding: null }, (err, res, body) => {
-  if (!err && res.statusCode === 200) {
-    fs.writeFileSync(filePath, body);
-    console.log('File downloaded and saved successfully.');
-  } else {
-    console.error('Failed to download file:', err || res.statusCode);
-  }
-});
+        const caption = mentions.includes(id) 
+        ? `Profile picture of @${id.split('@')[0]}` 
+        : 'Profile picture of you.';
 
-        
-        const caption = mentions.includes(id)
-          ? `Profile picture of @${id.split('@')[0]}`
-          : 'Profile picture of you.';
 
         await api.sendMessage(threadId, {
-          image: { stream: fs.createReadStream(filePath) },
+          image: { url: url },
           caption: caption,
           mentions: [id]
         });
-
-        fs.unlinkSync(filePath);
       }
     } catch (error) {
       console.error('Error fetching profile pictures:', error);
