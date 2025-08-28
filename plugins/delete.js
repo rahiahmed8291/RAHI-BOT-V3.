@@ -14,14 +14,10 @@ module.exports = {
   },
 
   start: async ({ event, api }) => {
-    const { threadId, senderId, message, isSenderAdmin } = event;
+    const { threadId, senderId, message } = event;
 
     try {
-      const isAdmin = global.isAdmin;
-      const { isBotAdmin } = await isAdmin(api, threadId, senderId);
-
-      console.log(isBotAdmin);
-      console.log(isSenderAdmin);
+      const {isBotAdmin, isSenderAdmin} = await global.isAdmin(api, threadId, senderId);
 
       if (!isBotAdmin) {
         await api.sendMessage(threadId, { text: '⚠️ I need to be an admin to delete messages.' });
@@ -52,5 +48,44 @@ module.exports = {
       console.error('❌ Delete command error:', err);
       await api.sendMessage(threadId, { text: `❌ Error: ${err.message || err}` }, { quoted: message });
     }
-  }
+  },
+  event: async ({ event, api }) => {
+      const { threadId, senderId, message } = event;
+
+      try {
+        
+        const reaction = message?.message.reactionMessage?.text;;
+        
+        const reactedKey = message?.message?.reactionMessage?.key;
+
+        if (!reaction || reaction !== '❌') return;
+
+        
+        const {isBotAdmin, isSenderAdmin} = await global.isAdmin(api, threadId, senderId);
+
+        if (!isBotAdmin) {
+          console.log('⚠️ Bot is not admin, cannot delete message.');
+          return;
+        }
+
+        if (!isSenderAdmin) {
+          console.log('⚠️ Reaction delete only works if sender is admin.');
+          return;
+        }
+
+        
+        await api.sendMessage(threadId, {
+          delete: {
+            remoteJid: threadId,
+            fromMe: false,
+            id: reactedKey.id,
+            participant: reactedKey.participant
+          }
+        });
+
+        console.log(`✅ Deleted message because admin reacted ❌`);
+      } catch (err) {
+        console.error('❌ Reaction Delete Error:', err);
+      }
+    }
 };
