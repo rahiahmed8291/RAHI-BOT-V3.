@@ -4,7 +4,7 @@ const axios = require("axios");
 module.exports = {
   config: {
     name: 'help',
-    aliases: ['commands', 'cmd'],
+    aliases: ['commands', 'menu'],
     permission: 0,
     prefix: true,
     description: 'Lists all available commands by category.',
