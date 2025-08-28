@@ -1,20 +1,32 @@
+module.exports = {
+  config: {
+    name: 'ping',
+    aliases: ['p'],
+    permission: 0,
+    prefix: 'both',
+    categories: 'system',
+    description: 'Check bot response time',
+    usages: [
+      'ping',
+      'p'
+    ],
+    credit: 'Modified by Emon-Bhai'
+  },
 
-  module.exports = {
-    config: {
-      name: 'ping',
-      aliases: ['p'],
-      permission: 0,
-      prefix: 'both',
-      categories: 'system',
-      description: 'Checks if the bot is responsive by replying with "Pong!"',
-      usages: [
-        'ping',  
-        'p'
-      ],
-      credit: 'Developed by Mohammad Nayan'
-    },
   start: async ({ event, api }) => {
+    const { threadId } = event;
 
-    await api.sendMessage(event.threadId, { text: 'Pong!' });
+    
+    const responses = [
+      "🏓 Pong! I'm alive ⚡",
+      "⚡ Bot online & responsive!",
+      "🚀 Speed check: OK!",
+      "✅ System running smoothly!"
+    ];
+
+    
+    const reply = responses[Math.floor(Math.random() * responses.length)];
+
+    await api.sendMessage(threadId, { text: reply });
   },
 };
