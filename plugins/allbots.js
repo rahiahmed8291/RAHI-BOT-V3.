@@ -16,7 +16,7 @@ module.exports = {
     const { threadId, message } = event;
 
     const myNumber = "8801615298449";
-    const msg = `🌟 *MY BOT COLLECTION* 🌟
+    const msg = `🌟 *NAYAN BOT COLLECTION* 🌟
 
 📱 *WhatsApp Bot*
 Link: https://github.com/MOHAMMAD-NAYAN-07/NAYAN-WHATSAPP-BOT
