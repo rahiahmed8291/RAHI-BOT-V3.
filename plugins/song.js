@@ -1,6 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
+const nayan = require('nayan-media-downloaders');
 const Youtube = require('youtube-search-api');
 
 async function downloadMusicFromYoutube(link, filePath) {
@@ -8,12 +9,8 @@ async function downloadMusicFromYoutube(link, filePath) {
   const timestart = Date.now();
 
   try {
-    const res = await axios.get(`https://raw.githubusercontent.com/MOHAMMAD-NAYAN-07/Nayan/main/api.json`);
-    const api = res.data.down_stream
-    const data = await axios.get(api+"/nayan/yt?url="+link);
-    console.log(data.data)
-    const audioUrl = data.data.data.audio_down;
-
+    const data = await nayan.ytdown(link);
+    const audioUrl = data.data.video;
 
     return new Promise((resolve, reject) => {
       axios({
