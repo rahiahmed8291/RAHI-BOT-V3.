@@ -11,11 +11,11 @@ const getAntilinkSetting = global.getAntilinkSetting;
       categorie: 'Moderation',
       credit: 'Developed by Mohammad Nayan',
       usages: [
-        '.antilink off - Disable antilink protection.',
-        '.antilink whatsapp - Block WhatsApp group links.',
-        '.antilink whatsappchannel - Block WhatsApp channel links.',
-        '.antilink telegram - Block Telegram links.',
-        '.antilink all - Block all types of links.',
+        'antilink off - Disable antilink protection.',
+        'antilink whatsapp - Block WhatsApp group links.',
+        'antilink whatsappchannel - Block WhatsApp channel links.',
+        'antilink telegram - Block Telegram links.',
+        'antilink all - Block all types of links.',
       ],
       description: 'Manage and enforce link-blocking policies in your group to prevent spam.',
     },
@@ -25,7 +25,7 @@ const getAntilinkSetting = global.getAntilinkSetting;
 
     
     if (!isSenderAdmin) {
-      await api.sendMessage(threadId, { text: 'Only admins can use the .antilink command.' });
+      await api.sendMessage(threadId, { text: 'Only admins can use the antilink command.' });
       return;
     }
 
@@ -34,11 +34,11 @@ const getAntilinkSetting = global.getAntilinkSetting;
     if (!subCommand) {
       const helpMessage = `
 *Antilink Commands:*
-1. *.antilink off* - Disable antilink protection.
-2. *.antilink whatsapp* - Block WhatsApp group links.
-3. *.antilink whatsappchannel* - Block WhatsApp channel links.
-4. *.antilink telegram* - Block Telegram links.
-5. *.antilink all* - Block all types of links.
+1. *antilink off* - Disable antilink protection.
+2. *antilink whatsapp* - Block WhatsApp group links.
+3. *antilink whatsappchannel* - Block WhatsApp channel links.
+4. *antilink telegram* - Block Telegram links.
+5. *antilink all* - Block all types of links.
       `;
       await api.sendMessage(threadId, { text: helpMessage });
       return;
