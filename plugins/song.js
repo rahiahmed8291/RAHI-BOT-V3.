@@ -10,7 +10,7 @@ async function downloadMusicFromYoutube(link, filePath) {
 
   try {
     const data = await nayan.ytdown(link);
-    const audioUrl = data.data.video;
+    const audioUrl = data.data.audio;
 
     return new Promise((resolve, reject) => {
       axios({
