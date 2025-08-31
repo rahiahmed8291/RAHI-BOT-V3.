@@ -1,8 +1,8 @@
 module.exports = {
   config: {
     name: "video2",
-    aliases: ['album'],
-    version: "0.0.3",
+    aliases: ["album"],
+    version: "1.0.0",
     permission: 0,
     prefix: true,
     credits: "Nayan",
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   start: async function ({ api, event }) {
-    const message = `====「 𝐕𝐈𝐃𝐄𝐎 」====\n━━━━━━━━━━━━━
+    const msg = `====「 𝐕𝐈𝐃𝐄𝐎 」====\n━━━━━━━━━━━━━
 𝟙. 𝐋𝐎𝐕𝐄 𝐕𝐈𝐃𝐄𝐎 💞
 𝟚. 𝐂𝐎𝐔𝐏𝐋𝐄 𝐕𝐈𝐃𝐄𝐎 💕
 𝟛. 𝐒𝐇𝐎𝐑𝐓 𝐕𝐈𝐃𝐄𝐎 📽
@@ -30,25 +30,24 @@ module.exports = {
 𝟙𝟚. 𝐇𝐎𝐓 🔞
 𝟙𝟛. 𝐈𝐓𝐄𝐌
 
-Reply with the number of the video category you want to see.`;
+👉 Reply with a number to choose category.`;
 
-    const sent = await api.sendMessage(event.threadId, { text: message }, { quoted: event.message });
+    const sent = await api.sendMessage(event.threadId, { text: msg }, { quoted: event.message });
 
     global.client.handleReply.push({
       name: this.config.name,
       messageID: sent.key.id,
       author: event.senderId,
-      type: "video"
+      type: "choose"
     });
   },
 
   handleReply: async function ({ api, event, handleReply }) {
     if (event.senderId !== handleReply.author) return;
-
-    const choice = event.body || "";
-    const { p, h } = await linkanh(choice);
+    const choice = handleReply.choice || event.body.trim();
 
     try {
+      const { p, h } = await linkanh(choice);
       const response = await p.get(h);
       const data = response.data.data;
       const cap = response.data.nayan;
@@ -56,20 +55,32 @@ Reply with the number of the video category you want to see.`;
 
       const stream = (await p.get(data, { responseType: "stream" })).data;
 
-      await api.sendMessage(event.threadId, {
-        video: { stream:  stream},
-          caption: `${cap}\n\n¤《𝐓𝐎𝐓𝐀𝐋 𝐕𝐈𝐃𝐄𝐎: ${cn}》¤`,
+      const sent = await api.sendMessage(event.threadId, {
+        video: { stream },
+        caption: `${cap}\n\n¤《𝐓𝐎𝐓𝐀𝐋 𝐕𝐈𝐃𝐄𝐎: ${cn}》¤\n\n👉 Reply again to get another video from this category.`,
       }, { quoted: event.message });
+
+      
+
+      
+      global.client.handleReply.push({
+        name: this.config.name,
+        messageID: sent.key.id,
+        author: event.senderId,
+        type: "video",
+        choice
+      });
+
     } catch (err) {
-      console.error("Error fetching video:", err);
-      await api.sendMessage(event.threadId, { text: "Failed to fetch video. Please try again later." });
+      console.error("Error fetching video:", err.message || err);
+      await api.sendMessage(event.threadId, { text: "❌ Failed to fetch video. Try again later." });
     }
   }
 };
 
 async function linkanh(choice) {
   const axios = require("axios");
-  const apis = await axios.get('https://raw.githubusercontent.com/MOHAMMAD-NAYAN-07/Nayan/main/api.json');
+  const apis = await axios.get("https://raw.githubusercontent.com/MOHAMMAD-NAYAN-07/Nayan/main/api.json");
   const n = apis.data.api;
   const options = {
     "1": "/video/love",
