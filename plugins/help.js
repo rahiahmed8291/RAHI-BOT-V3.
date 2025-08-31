@@ -35,7 +35,7 @@ module.exports = {
     commands.forEach((cmd) => {
       let cat = cmd.category || cmd.categorie || cmd.categories || "📦 Uncategorized";
 
-      // Merge category check
+      
       for (const merged in mergedCategories) {
         if (mergedCategories[merged].includes(cat)) {
           cat = merged;
@@ -75,7 +75,6 @@ module.exports = {
      ✨ *${global.config.botName || 'WhatsApp Bot'}* ✨
 ╚══════════════════════╝
 
-📌 Version: *${global.config.version || '1.0.0'}*
 👑 Owner: ${global.config.botOwner || 'Unknown Owner'}
 `;
 
@@ -96,7 +95,7 @@ ${categoryCommands}
 
     try {
       
-      const response = await axios.get('https://i.postimg.cc/pV7xByGv/IMG-20250106-WA0007.png', {
+      const response = await axios.get(global.config.helpPic, {
         responseType: 'stream'
       });
 
